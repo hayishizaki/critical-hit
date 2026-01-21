@@ -408,5 +408,47 @@
 </div>
 </div>
 </footer>
+<!-- ===== Critical Hit JSON 表示エリア ===== -->
+<section style="padding:16px;">
+  <h2>今日のニューストレンド</h2>
+  <div id="ch-trends">読み込み中…</div>
+
+  <h2>トレンド解説</h2>
+  <div id="ch-explains"></div>
+</section>
+<!-- ===== ここまで ===== -->
+<script>
+(async function () {
+  try {
+    const response = await fetch('data/today.json');
+    const data = await response.json();
+
+    // トレンド表示
+    const trendsEl = document.getElementById('ch-trends');
+    trendsEl.innerHTML = data.trend_words
+      .map(t => `<span style="margin-right:8px;">${t.word}</span>`)
+      .join('');
+
+    // 解説表示
+    const explainsEl = document.getElementById('ch-explains');
+    explainsEl.innerHTML = data.explains.map(e => `
+      <article style="margin-bottom:12px;">
+        <h3>${e.title}</h3>
+        <p>${e.what}</p>
+        <p><strong>なぜ重要か：</strong>${e.why_it_matters}</p>
+        <p>
+          出典：
+          <a href="${e.sources[0].url}" target="_blank">
+            ${e.sources[0].label}
+          </a>
+        </p>
+      </article>
+    `).join('');
+
+  } catch (err) {
+    console.error(err);
+  }
+})();
+</script>
 
 </body></html>
