@@ -336,20 +336,18 @@
 <script>
 (async function () {
   try {
-    // JSON読み込み
-    const response = await fetch('data/today.json', { cache: 'no-store' });
-    if (!response.ok) throw new Error('today.json を読めません: ' + response.status);
-    const data = await response.json();
+    const res = await fetch('data/today.json', { cache: 'no-store' });
+    if (!res.ok) throw new Error('today.json を読めません: ' + res.status);
+    const data = await res.json();
 
-    // ===== 1) ワードクラウド（デザイン内）に流し込む =====
-    // ▼あなたのHTML側で、ダミーのワード群を入れていた div を
-    //    <div id="ch-wordcloud" class="..."> に置き換えておく必要があります。
+    // 1) ワードクラウド描画
     const wc = document.getElementById('ch-wordcloud');
     if (wc && Array.isArray(data.trend_words)) {
       wc.innerHTML = data.trend_words.map(t => {
         const score = Number(t.score ?? 0);
+        const word = (t.word || '').toString().trim();
+        if (!word) return '';
 
-        // サイズ：scoreで5段階
         const sizeClass =
           score >= 90 ? 'text-4xl font-black' :
           score >= 75 ? 'text-3xl font-bold' :
@@ -357,49 +355,113 @@
           score >= 45 ? 'text-lg font-medium' :
                         'text-base font-light';
 
-        // 色：deltaで分岐（up / steady / down / new も許容）
         const delta = (t.delta || 'steady').toLowerCase();
         const colorClass =
           delta === 'up' || delta === 'rising' ? 'text-primary neon-glow-yellow' :
           delta === 'new' ? 'text-new-blue neon-glow-blue' :
           delta === 'down' ? 'text-new-blue neon-glow-blue' :
-                             'text-stable-white opacity-70';
+                             'text-stable-white opacity-95';
 
-        const word = (t.word || '').toString().trim();
-        if (!word) return '';
-
-        return `<span class="${sizeClass} ${colorClass} font-display uppercase">${escapeHtml(word)}</span>`;
+        return `
+          <button
+            type="button"
+            data-word="${escapeHtml(word)}"
+            class="${sizeClass} ${colorClass} font-display uppercase cursor-pointer hover:scale-105 transition-transform"
+            style="background:transparent;border:none;padding:0;"
+          >${escapeHtml(word)}</button>
+        `;
       }).join('');
+
+      // クリック連動（中央フォーカス＆右側差し替え）
+      wc.querySelectorAll('button[data-word]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const w = btn.getAttribute('data-word');
+          setFocusWord(w);
+          renderRelated(w);
+          highlightSelected(w);
+        });
+      });
     }
 
-    // ===== 2) （任意）右側の Related Intelligence を差し替える場合 =====
-    // まずはワードクラウドだけでOK。将来ここも差し替えるなら
-    // HTML側に id="ch-related" の箱を作って、下を有効化します。
-    //
-    // const related = document.getElementById('ch-related');
-    // if (related && Array.isArray(data.explains)) {
-    //   related.innerHTML = data.explains.slice(0,3).map(e => {
-    //     const src = (e.sources && e.sources[0]) ? e.sources[0] : null;
-    //     const srcHtml = src
-    //       ? `<a class="underline text-primary" href="${src.url}" target="_blank" rel="noopener noreferrer">${escapeHtml(src.label || '出典')}</a>`
-    //       : `<span class="opacity-50">出典（要追加）</span>`;
-    //     return `
-    //       <div class="group cursor-pointer ${/*必要ならクラス調整*/''}">
-    //         <h4 class="text-[11px] font-bold leading-tight group-hover:text-primary transition-colors line-clamp-2">
-    //           ${escapeHtml(e.title || '')}
-    //         </h4>
-    //         <div class="mt-2 text-[10px] opacity-60">${escapeHtml(e.what || '')}</div>
-    //         <div class="mt-2 text-[10px]">${srcHtml}</div>
-    //       </div>
-    //     `;
-    //   }).join('');
-    // }
+    // 初期表示：最初のワードをフォーカス
+    const firstWord = Array.isArray(data.trend_words) && data.trend_words[0] ? data.trend_words[0].word : null;
+    if (firstWord) {
+      setFocusWord(firstWord);
+      renderRelated(firstWord);
+      highlightSelected(firstWord);
+    }
 
-  } catch (err) {
-    console.error(err);
+    function setFocusWord(word) {
+      const focus = document.getElementById('ch-focus-word');
+      if (focus) focus.textContent = word;
+    }
+
+    // 2) 右側 Related Intelligence を表示
+    // today.json の explains に tags がある前提でフィルタします（なければ全部から上位3件）
+    function renderRelated(selectedWord) {
+      const box = document.getElementById('ch-related');
+      if (!box) return;
+
+      const explains = Array.isArray(data.explains) ? data.explains : [];
+      let items = explains.filter(e => Array.isArray(e.tags) && e.tags.includes(selectedWord));
+
+      if (items.length === 0) items = explains; // 該当なしなら全体から
+      items = items.slice(0, 3);
+
+      if (items.length === 0) {
+        box.innerHTML = `<div class="text-[10px] opacity-50 font-mono">NO_RELATED_INTEL</div>`;
+        return;
+      }
+
+      box.innerHTML = items.map(e => {
+        const src = (e.sources && e.sources[0]) ? e.sources[0] : null;
+        const sourceLabel = src?.label ? escapeHtml(src.label) : '出典';
+        const sourceUrl = src?.url ? src.url : '#';
+
+        // source_meta は任意（例："Reuters // 2h ago" みたいな表示用）
+        const meta = e.source_meta ? escapeHtml(e.source_meta) : 'SOURCE // UPDATE';
+
+        return `
+          <div class="group cursor-pointer ${e._borderTop ? 'border-t border-white/5 pt-3' : ''}">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="material-symbols-outlined text-[10px] text-new-blue">language</span>
+              <span class="text-[8px] font-mono text-white/40 uppercase">${meta}</span>
+            </div>
+            <h4 class="text-[11px] font-bold leading-tight group-hover:text-primary transition-colors line-clamp-2">
+              ${escapeHtml(e.title || '')}
+            </h4>
+            <div class="mt-2">
+              <a class="text-[9px] font-pixel text-primary hover:underline tracking-widest uppercase opacity-60"
+                 href="${sourceUrl}" target="_blank" rel="noopener noreferrer">${sourceLabel}</a>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      // “2件目以降に上線”を入れる（見た目の再現）
+      const children = Array.from(box.children);
+      children.forEach((el, idx) => {
+        if (idx >= 1) el.classList.add('border-t', 'border-white/5', 'pt-3');
+      });
+    }
+
+    function highlightSelected(word) {
+      const wc = document.getElementById('ch-wordcloud');
+      if (!wc) return;
+      wc.querySelectorAll('button[data-word]').forEach(btn => {
+        const w = btn.getAttribute('data-word');
+        if (w === word) {
+          btn.classList.add('ring-1', 'ring-primary/60');
+        } else {
+          btn.classList.remove('ring-1', 'ring-primary/60');
+        }
+      });
+    }
+
+  } catch (e) {
+    console.error(e);
   }
 
-  // HTMLエスケープ（安全対策）
   function escapeHtml(str) {
     return String(str)
       .replaceAll('&', '&amp;')
@@ -410,4 +472,5 @@
   }
 })();
 </script>
+
 </body></html>
