@@ -1,0 +1,31 @@
+{
+  "date": "2026-01-21",
+  "updated_at": "2026-01-21T06:00:00+09:00",
+  "trend_words": [
+    { "word": "サンプル1", "score": 90, "delta": "up" },
+    { "word": "サンプル2", "score": 70, "delta": "steady" },
+    { "word": "サンプル3", "score": 50, "delta": "down" }
+  ],
+  "ranking": [
+    { "rank": 1, "word": "サンプル1", "score": 90, "delta": "up" },
+    { "rank": 2, "word": "サンプル2", "score": 70, "delta": "steady" },
+    { "rank": 3, "word": "サンプル3", "score": 50, "delta": "down" }
+  ],
+  "explains": [
+    {
+      "title": "サンプルトピック",
+      "what": "何が起きたかを短く説明。",
+      "why_it_matters": "なぜ重要かを短く説明。",
+      "sources": [
+        { "label": "原典（URL）", "url": "https://example.com" }
+      ]
+    }
+  ],
+  "recommended": [
+    {
+      "title": "深掘り記事サンプル",
+      "url": "https://example.com",
+      "note": "背景理解用"
+    }
+  ]
+}
