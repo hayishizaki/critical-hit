@@ -55,22 +55,10 @@
             mask-image: radial-gradient(circle, black 70%, transparent 100%);
         }
         .neon-glow-blue {
-            text-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
+            text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
         }
         .neon-glow-yellow {
-            text-shadow: 0 0 10px rgba(244, 209, 37, 0.8);
-        }
-        .neuron-line {
-            background: linear-gradient(90deg, transparent, #f4d125, transparent);
-            height: 1px;
-            position: absolute;
-            transform-origin: left center;
-        }
-        .pixel-corner {
-            width: 4px;
-            height: 4px;
-            background: #f4d125;
-            position: absolute;
+            text-shadow: 0 0 10px rgba(244, 209, 37, 0.5);
         }
     </style>
 </head>
@@ -79,15 +67,12 @@
 <div class="max-w-[1440px] mx-auto flex items-center justify-between px-6 py-3">
 <div class="flex items-center gap-10">
 <div class="flex items-center gap-4 group cursor-pointer">
-<div class="relative size-12 bg-background-dark border-2 border-primary flex items-center justify-center overflow-hidden">
+<div class="relative size-10 bg-background-dark border-2 border-primary flex items-center justify-center overflow-hidden">
 <div class="absolute inset-0 opacity-20 dot-matrix"></div>
-<div class="absolute inset-x-0 top-1/2 h-[1px] bg-primary/30"></div>
-<div class="absolute inset-y-0 left-1/2 w-[1px] bg-primary/30"></div>
+<div class="absolute inset-0 flex items-center justify-center opacity-40">
+<span class="material-symbols-outlined text-primary text-3xl">crossword</span>
+</div>
 <span class="font-pixel text-xl font-bold text-primary relative z-10 leading-none">CH</span>
-<div class="pixel-corner top-0 left-0"></div>
-<div class="pixel-corner top-0 right-0"></div>
-<div class="pixel-corner bottom-0 left-0"></div>
-<div class="pixel-corner bottom-0 right-0"></div>
 </div>
 <div>
 <h1 class="text-xl font-black tracking-tighter uppercase font-display leading-none">
@@ -101,12 +86,12 @@
 </div>
 <div class="hidden md:flex flex-col border-l border-white/10 pl-10">
 <span class="text-primary text-[10px] font-bold tracking-[0.2em] font-pixel uppercase">Filtered Intelligence Stream</span>
-<span class="text-[8px] opacity-40 font-mono uppercase">Node: Tokyo_Core // Auth: Level_4</span>
+<span class="text-[8px] opacity-40 font-mono">CONNECTION: ENCRYPTED // STATUS: OPTIMAL</span>
 </div>
 </div>
 <div class="flex items-center gap-8">
 <button class="flex items-center gap-3 px-4 py-2 bg-white/5 border border-white/10 hover:border-primary/60 hover:bg-primary/5 transition-all group">
-<span class="material-symbols-outlined text-primary text-lg leading-none">headphones</span>
+<span class="material-symbols-outlined text-primary text-lg leading-none group-hover:scale-110 transition-transform">headset_mic</span>
 <span class="text-[10px] font-pixel text-primary tracking-widest pt-0.5">AI音楽を聴く</span>
 </button>
 <nav class="hidden lg:flex items-center gap-8 text-[10px] font-black tracking-[0.3em] uppercase font-pixel">
@@ -122,10 +107,10 @@
 <main class="max-w-[1440px] mx-auto px-6 py-8 space-y-12">
 <section class="bg-panel-dark border border-white/5 relative overflow-hidden group">
 <div class="absolute top-0 right-0 p-4 opacity-5 dot-matrix w-full h-full pointer-events-none"></div>
-<div class="p-6 border-b border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
+<div class="p-6 border-b border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-6">
 <div>
 <h2 class="text-xs font-bold text-primary tracking-[0.4em] uppercase mb-4 flex items-center gap-2 font-pixel">
-<span class="material-symbols-outlined text-sm">hub</span> トレンド・マップ v2.0
+<span class="material-symbols-outlined text-sm">hub</span> トレンド・マップ
                 </h2>
 <div class="flex flex-wrap gap-2">
 <button class="px-3 py-1 bg-primary text-background-dark text-[9px] font-pixel tracking-tighter">全て</button>
@@ -135,7 +120,7 @@
 <button class="px-3 py-1 bg-white/5 border border-white/10 text-[9px] font-pixel text-white/60 hover:border-primary/50 transition-colors">エンタメ</button>
 </div>
 </div>
-<div class="bg-background-dark/80 p-3 border border-white/10 flex gap-6 items-center">
+<div class="bg-background-dark p-3 border border-white/10 flex gap-6 items-center">
 <div class="flex items-center gap-2">
 <span class="size-2 bg-rising-yellow shadow-[0_0_5px_#f4d125]"></span>
 <span class="text-[9px] font-pixel text-primary uppercase">Rising / 上昇</span>
@@ -150,112 +135,36 @@
 </div>
 </div>
 </div>
-<div class="relative h-[500px] bg-black/60 overflow-hidden flex items-center justify-center">
-<div class="absolute inset-0 flex flex-wrap items-center justify-center content-center gap-x-12 gap-y-6 opacity-10 blur-[1px] pointer-events-none">
-<span class="text-3xl font-black text-primary font-display uppercase">OpenAI</span>
-<span class="text-lg font-medium text-stable-white">EV普及</span>
-<span class="text-2xl font-bold text-new-blue">空間計算</span>
-<span class="text-base font-light text-stable-white">働き方改革</span>
-<span class="text-sm font-mono text-stable-white">円安加速</span>
+<div class="relative h-[320px] bg-black/40 overflow-hidden word-cloud-mask">
+<div class="absolute inset-0 dot-matrix opacity-10"></div>
+<div class="flex flex-wrap items-center justify-center content-center h-full p-10 gap-x-10 gap-y-4">
+<span class="text-4xl font-black text-primary neon-glow-yellow hover:scale-110 transition-transform cursor-pointer font-display uppercase">OpenAI</span>
+<span class="text-lg font-medium text-stable-white/60">EV普及</span>
+<span class="text-2xl font-bold text-new-blue neon-glow-blue cursor-pointer">空間計算</span>
+<span class="text-3xl font-black text-primary neon-glow-yellow cursor-pointer">LLM</span>
+<span class="text-base font-light text-stable-white/40">働き方改革</span>
+<span class="text-4xl font-black text-new-blue neon-glow-blue cursor-pointer">生成AI</span>
+<span class="text-sm font-mono text-stable-white/30">円安加速</span>
 <span class="text-2xl font-bold text-primary">量子計算</span>
-<span class="text-lg font-semibold text-stable-white">防衛産業</span>
+<span class="text-lg font-semibold text-stable-white/70">防衛産業</span>
+<span class="text-5xl font-black text-primary neon-glow-yellow cursor-pointer">GPU不足</span>
 <span class="text-base font-medium text-new-blue">Rust</span>
 <span class="text-2xl font-bold text-stable-white">自動運転</span>
-<span class="text-lg font-light text-stable-white">SDGs</span>
+<span class="text-lg font-light text-stable-white/40">SDGs</span>
 <span class="text-3xl font-black text-new-blue">核融合</span>
 <span class="text-xl font-bold text-primary">Web4.0</span>
-<span class="text-sm font-mono text-stable-white">サプライチェーン</span>
-<span class="text-4xl font-black text-primary">半導体</span>
+<span class="text-sm font-mono text-stable-white/30">サプライチェーン</span>
+<span class="text-4xl font-black text-primary neon-glow-yellow">半導体</span>
 <span class="text-lg font-semibold text-new-blue">Robotics</span>
-<span class="text-2xl font-bold text-stable-white">CBDC</span>
-<span class="text-sm font-light text-stable-white">テレワーク</span>
+<span class="text-2xl font-bold text-stable-white/80">CBDC</span>
+<span class="text-sm font-light text-stable-white/50">テレワーク</span>
 <span class="text-3xl font-black text-new-blue">宇宙探索</span>
 <span class="text-lg font-medium text-primary">暗号資産</span>
 <span class="text-xl font-bold text-stable-white">リスキリング</span>
 <span class="text-4xl font-black text-primary">AGI</span>
 <span class="text-base font-light text-new-blue">バイオテック</span>
-<span class="text-xl font-bold text-stable-white">電力不足</span>
+<span class="text-xl font-bold text-stable-white/60">電力不足</span>
 <span class="text-2xl font-black text-new-blue uppercase">HBM</span>
-</div>
-<div class="relative z-20 w-full h-full flex items-center justify-center">
-<div class="relative z-30 flex flex-col items-center">
-<div class="absolute -inset-10 bg-primary/10 rounded-full blur-3xl animate-pulse"></div>
-<div class="px-8 py-4 bg-background-dark border-2 border-primary shadow-[0_0_30px_rgba(244,209,37,0.4)] relative">
-<div class="pixel-corner top-0 left-0"></div>
-<div class="pixel-corner top-0 right-0"></div>
-<div class="pixel-corner bottom-0 left-0"></div>
-<div class="pixel-corner bottom-0 right-0"></div>
-<span class="text-5xl font-black text-primary neon-glow-yellow font-display uppercase tracking-widest">生成AI</span>
-<div class="absolute -top-6 left-0 bg-primary text-background-dark text-[8px] font-pixel px-2 py-0.5 font-bold uppercase">Active_Node: Focus</div>
-</div>
-</div>
-<div class="absolute right-12 top-1/2 -translate-y-1/2 w-72 bg-panel-dark border border-primary/40 shadow-2xl p-4">
-<div class="flex items-center justify-between mb-4 border-b border-primary/20 pb-2">
-<span class="text-[9px] font-pixel text-primary uppercase tracking-widest">Related Intelligence</span>
-<span class="material-symbols-outlined text-primary text-xs">rss_feed</span>
-</div>
-<div class="space-y-4">
-<div class="group cursor-pointer">
-<div class="flex items-center gap-2 mb-1">
-<span class="material-symbols-outlined text-[10px] text-new-blue">language</span>
-<span class="text-[8px] font-mono text-white/40 uppercase">Reuters // 2h ago</span>
-</div>
-<h4 class="text-[11px] font-bold leading-tight group-hover:text-primary transition-colors line-clamp-2">生成AI著作権指針、文化庁が最終案を提示。学習データの商用利用を厳格化。</h4>
-</div>
-<div class="group cursor-pointer border-t border-white/5 pt-3">
-<div class="flex items-center gap-2 mb-1">
-<span class="material-symbols-outlined text-[10px] text-primary">article</span>
-<span class="text-[8px] font-mono text-white/40 uppercase">Nikkei_Tech // 5h ago</span>
-</div>
-<h4 class="text-[11px] font-bold leading-tight group-hover:text-primary transition-colors line-clamp-2">NVIDIA次世代GPU「Blackwell」が牽引する国内生成AI基盤の再構築。</h4>
-</div>
-<div class="group cursor-pointer border-t border-white/5 pt-3">
-<div class="flex items-center gap-2 mb-1">
-<span class="material-symbols-outlined text-[10px] text-new-blue">public</span>
-<span class="text-[8px] font-mono text-white/40 uppercase">WIRED_PRO // 1d ago</span>
-</div>
-<h4 class="text-[11px] font-bold leading-tight group-hover:text-primary transition-colors line-clamp-2">LLMのエネルギー消費問題：地方データセンターの分散配置が加速。</h4>
-</div>
-</div>
-<div class="mt-4 pt-2 border-t border-white/10 flex justify-between items-center">
-<span class="text-[8px] font-pixel text-white/20 uppercase">Scan_Complete_04</span>
-<span class="text-[9px] font-pixel text-primary animate-pulse">READ_MORE</span>
-</div>
-</div>
-<div class="absolute transform -translate-x-32 -translate-y-32 group cursor-pointer z-40">
-<div class="neuron-line w-32 rotate-[45deg] opacity-40"></div>
-<div class="relative px-4 py-2 bg-background-dark/90 border border-primary/30 hover:border-primary hover:scale-105 transition-all">
-<span class="text-xs font-pixel text-primary">GPU</span>
-</div>
-</div>
-<div class="absolute transform translate-x-32 -translate-y-28 group cursor-pointer z-40">
-<div class="neuron-line w-32 rotate-[135deg] opacity-40"></div>
-<div class="relative px-4 py-2 bg-background-dark/90 border border-primary/30 hover:border-primary hover:scale-105 transition-all">
-<span class="text-xs font-pixel text-primary">著作権</span>
-</div>
-</div>
-<div class="absolute transform translate-x-40 translate-y-20 group cursor-pointer z-40">
-<div class="neuron-line w-40 rotate-[200deg] opacity-40"></div>
-<div class="relative px-4 py-2 bg-background-dark/90 border border-primary/30 hover:border-primary hover:scale-105 transition-all">
-<span class="text-xs font-pixel text-primary uppercase">LLM</span>
-</div>
-</div>
-<div class="absolute transform -translate-x-44 translate-y-16 group cursor-pointer z-40">
-<div class="neuron-line w-44 rotate-[340deg] opacity-40"></div>
-<div class="relative px-4 py-2 bg-background-dark/90 border border-primary/30 hover:border-primary hover:scale-105 transition-all">
-<span class="text-xs font-pixel text-primary">学習データ</span>
-</div>
-</div>
-<div class="absolute transform -translate-x-10 translate-y-32 group cursor-pointer z-40">
-<div class="neuron-line w-32 rotate-[270deg] opacity-40"></div>
-<div class="relative px-4 py-2 bg-background-dark/90 border border-primary/30 hover:border-primary hover:scale-105 transition-all">
-<span class="text-xs font-pixel text-primary uppercase">AGI</span>
-</div>
-</div>
-</div>
-<div class="absolute bottom-6 left-6 flex items-center gap-3">
-<span class="material-symbols-outlined text-primary text-sm animate-pulse">touch_app</span>
-<span class="text-[9px] font-pixel text-primary uppercase tracking-[0.2em]">関連ワードを選択してニューロンを切り替え</span>
 </div>
 </div>
 </section>
@@ -310,6 +219,42 @@
 </div>
 </div>
 </section>
+<section class="bg-primary/5 border border-primary/20 p-8 relative">
+<div class="absolute inset-0 dot-matrix opacity-10 pointer-events-none"></div>
+<div class="flex items-center gap-3 mb-8 border-b border-primary/20 pb-4">
+<span class="material-symbols-outlined text-primary">analytics</span>
+<h3 class="text-lg font-pixel tracking-[0.2em] uppercase text-primary">トレンド要約解説: AI国際規制</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10">
+<div class="col-span-1 md:col-span-2 space-y-6">
+<p class="text-xl font-bold leading-snug">主要国が合意した「AI階層的リスク管理」の全貌</p>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+<div class="bg-background-dark p-4 border-l-2 border-primary">
+<span class="text-[9px] font-pixel text-primary uppercase block mb-2">背景と事実</span>
+<p class="text-xs opacity-80 leading-relaxed">一定以上の演算能力を持つLLMに対し、透明性レポートと脆弱性評価の義務化が決定。特に医療・インフラ分野のAI活用に厳格なガイドラインが適用される。</p>
+</div>
+<div class="bg-background-dark p-4 border-l-2 border-new-blue">
+<span class="text-[9px] font-pixel text-new-blue uppercase block mb-2">市場への影響</span>
+<p class="text-xs opacity-80 leading-relaxed">法的リスクが明確化したことで、逆にエンタープライズ層のAI導入が加速。コンプライアンス関連のスタートアップに巨額の資金が流入中。</p>
+</div>
+</div>
+</div>
+<div class="bg-black/40 p-5 border border-white/5 h-fit">
+<h4 class="text-[10px] font-pixel text-white/40 uppercase tracking-widest mb-4">信頼ソース</h4>
+<ul class="space-y-3">
+<li><a class="text-[11px] font-pixel text-primary hover:underline flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-xs">link</span> REUTERS_INTEL
+                            </a></li>
+<li><a class="text-[11px] font-pixel text-primary hover:underline flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-xs">link</span> NIKKEI_TECH
+                            </a></li>
+<li><a class="text-[11px] font-pixel text-primary hover:underline flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-xs">link</span> WIRED_PRO
+                            </a></li>
+</ul>
+</div>
+</div>
+</section>
 </div>
 <aside class="lg:col-span-4 space-y-8">
 <div class="bg-panel-dark border border-white/10 p-6 sticky top-28">
@@ -329,6 +274,15 @@
 <h5 class="text-sm font-bold leading-tight group-hover:text-primary transition-colors">AI駆動型攻撃への防御戦略：シンギュラリティへの備え</h5>
 <p class="text-[9px] opacity-40 mt-2 font-mono uppercase">15 MIN READ • WIRED PRO</p>
 </div>
+<div class="group cursor-pointer">
+<div class="aspect-[21/9] bg-black border border-white/5 overflow-hidden mb-3 relative">
+<img class="w-full h-full object-cover opacity-40 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAz4cTQuUDcYU2iIwgLLsTlDtIvEUHC6vVPiIiLXj8x2DJbgny9SZdL1IT3SKambBDzH-cuWvyQJdM4YOuioa7ifok0tSE91Nv-tuyplWCKewQa-GmVPR8LUeFGizVcNE_9pxDKJ9ZsDefxO8EZKzy3GrSX03RDFVPwaQHV4SILUkyVycd1zxRRBMCH9MB8t7iFYii2COuczgO3O1rMjZMZAidlZsuWc9o7O6SMmiPejDCXWHe3A70G5hMCZEfakrwHt8FGFUisqcc"/>
+<div class="absolute inset-0 bg-new-blue/5 group-hover:bg-transparent"></div>
+</div>
+<span class="text-[9px] font-pixel text-new-blue tracking-tighter block mb-1">GLOBAL_LOGISTICS</span>
+<h5 class="text-sm font-bold leading-tight group-hover:text-new-blue transition-colors">新興国市場におけるインフラ投資の新たな波と勝機</h5>
+<p class="text-[9px] opacity-40 mt-2 font-mono uppercase">10 MIN READ • ANALYSIS</p>
+</div>
 <div class="group cursor-pointer flex gap-4 items-start border-t border-white/5 pt-6">
 <div class="size-12 bg-primary/10 border border-primary/20 shrink-0 flex items-center justify-center">
 <span class="material-symbols-outlined text-primary text-xl">bolt</span>
@@ -346,11 +300,11 @@
 <div class="p-6 bg-new-blue/5 border border-new-blue/20 relative overflow-hidden group">
 <div class="absolute inset-0 dot-matrix opacity-10"></div>
 <h3 class="text-[10px] font-pixel text-new-blue uppercase mb-4">System Update</h3>
-<p class="text-xs font-bold leading-relaxed mb-4">データ解析アルゴリズムが v4.5 にアップデート。ニューロンマップの関連性抽出精度が向上しました。</p>
+<p class="text-xs font-bold leading-relaxed mb-4">データ解析アルゴリズムが v4.2 にアップデートされました。トレンド抽出の精度が15%向上。</p>
 <div class="h-1 bg-white/10 w-full mb-2">
-<div class="h-full bg-new-blue w-full animate-pulse"></div>
+<div class="h-full bg-new-blue w-3/4 animate-pulse"></div>
 </div>
-<span class="text-[8px] font-mono opacity-40">OPTIMIZING_STREAMS... DONE</span>
+<span class="text-[8px] font-mono opacity-40">OPTIMIZING_STREAMS...</span>
 </div>
 </aside>
 </div>
@@ -361,11 +315,9 @@
 <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
 <div class="md:col-span-1">
 <div class="flex items-center gap-3 mb-6">
-<div class="size-8 bg-background-dark border-2 border-primary flex items-center justify-center text-primary font-pixel text-sm relative">
+<div class="size-8 bg-background-dark border border-primary flex items-center justify-center text-primary font-pixel text-sm">
                         CH
-                        <div class="pixel-corner top-0 left-0 scale-50"></div>
-<div class="pixel-corner bottom-0 right-0 scale-50"></div>
-</div>
+                    </div>
 <h1 class="text-lg font-black tracking-tighter uppercase font-display">Critical Hit <span class="text-primary">!</span></h1>
 </div>
 <p class="text-xs opacity-40 mb-8 leading-relaxed font-pixel">ノイズを削ぎ落とし、即座に活用可能なビジネス・インテリジェンスを提供。現代の意思決定者のための高精度ダッシュボード。</p>
@@ -408,47 +360,5 @@
 </div>
 </div>
 </footer>
-<!-- ===== Critical Hit JSON 表示エリア ===== -->
-<section style="padding:16px;">
-  <h2>今日のニューストレンド</h2>
-  <div id="ch-trends">読み込み中…</div>
-
-  <h2>トレンド解説</h2>
-  <div id="ch-explains"></div>
-</section>
-<!-- ===== ここまで ===== -->
-<script>
-(async function () {
-  try {
-    const response = await fetch('data/today.json');
-    const data = await response.json();
-
-    // トレンド表示
-    const trendsEl = document.getElementById('ch-trends');
-    trendsEl.innerHTML = data.trend_words
-      .map(t => `<span style="margin-right:8px;">${t.word}</span>`)
-      .join('');
-
-    // 解説表示
-    const explainsEl = document.getElementById('ch-explains');
-    explainsEl.innerHTML = data.explains.map(e => `
-      <article style="margin-bottom:12px;">
-        <h3>${e.title}</h3>
-        <p>${e.what}</p>
-        <p><strong>なぜ重要か：</strong>${e.why_it_matters}</p>
-        <p>
-          出典：
-          <a href="${e.sources[0].url}" target="_blank">
-            ${e.sources[0].label}
-          </a>
-        </p>
-      </article>
-    `).join('');
-
-  } catch (err) {
-    console.error(err);
-  }
-})();
-</script>
 
 </body></html>
