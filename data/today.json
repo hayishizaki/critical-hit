@@ -21,7 +21,7 @@
   { "word": "バイオテック", "score": 60, "delta": "new" },
   { "word": "電力不足", "score": 58, "delta": "up" },
   { "word": "リスキリング", "score": 56, "delta": "steady" },
-  { "word": "Robotics", "score": 54, "delta": "new" }
+  { "word": "Robotics", "score": 54, "delta": "new" },
   ],
   "ranking": [
     { "rank": 1, "word": "サンプル1", "score": 90, "delta": "up" },
