@@ -2,7 +2,6 @@
   "date": "2026-01-21",
   "updated_at": "2026-01-21T06:00:00+09:00",
   "trend_words": [
-"trend_words": [
   { "word": "生成AI", "score": 98, "delta": "up" },
   { "word": "半導体", "score": 92, "delta": "up" },
   { "word": "円安", "score": 88, "delta": "steady" },
@@ -23,8 +22,6 @@
   { "word": "電力不足", "score": 58, "delta": "up" },
   { "word": "リスキリング", "score": 56, "delta": "steady" },
   { "word": "Robotics", "score": 54, "delta": "new" }
-]
-
   ],
   "ranking": [
     { "rank": 1, "word": "サンプル1", "score": 90, "delta": "up" },
