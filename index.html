@@ -136,36 +136,8 @@
 </div>
 </div>
 <div class="relative h-[320px] bg-black/40 overflow-hidden word-cloud-mask">
-<div class="absolute inset-0 dot-matrix opacity-10"></div>
-<div class="flex flex-wrap items-center justify-center content-center h-full p-10 gap-x-10 gap-y-4">
-<span class="text-4xl font-black text-primary neon-glow-yellow hover:scale-110 transition-transform cursor-pointer font-display uppercase">OpenAI</span>
-<span class="text-lg font-medium text-stable-white/60">EV普及</span>
-<span class="text-2xl font-bold text-new-blue neon-glow-blue cursor-pointer">空間計算</span>
-<span class="text-3xl font-black text-primary neon-glow-yellow cursor-pointer">LLM</span>
-<span class="text-base font-light text-stable-white/40">働き方改革</span>
-<span class="text-4xl font-black text-new-blue neon-glow-blue cursor-pointer">生成AI</span>
-<span class="text-sm font-mono text-stable-white/30">円安加速</span>
-<span class="text-2xl font-bold text-primary">量子計算</span>
-<span class="text-lg font-semibold text-stable-white/70">防衛産業</span>
-<span class="text-5xl font-black text-primary neon-glow-yellow cursor-pointer">GPU不足</span>
-<span class="text-base font-medium text-new-blue">Rust</span>
-<span class="text-2xl font-bold text-stable-white">自動運転</span>
-<span class="text-lg font-light text-stable-white/40">SDGs</span>
-<span class="text-3xl font-black text-new-blue">核融合</span>
-<span class="text-xl font-bold text-primary">Web4.0</span>
-<span class="text-sm font-mono text-stable-white/30">サプライチェーン</span>
-<span class="text-4xl font-black text-primary neon-glow-yellow">半導体</span>
-<span class="text-lg font-semibold text-new-blue">Robotics</span>
-<span class="text-2xl font-bold text-stable-white/80">CBDC</span>
-<span class="text-sm font-light text-stable-white/50">テレワーク</span>
-<span class="text-3xl font-black text-new-blue">宇宙探索</span>
-<span class="text-lg font-medium text-primary">暗号資産</span>
-<span class="text-xl font-bold text-stable-white">リスキリング</span>
-<span class="text-4xl font-black text-primary">AGI</span>
-<span class="text-base font-light text-new-blue">バイオテック</span>
-<span class="text-xl font-bold text-stable-white/60">電力不足</span>
-<span class="text-2xl font-black text-new-blue uppercase">HBM</span>
-</div>
+<div id="ch-wordcloud" class="absolute inset-0 flex flex-wrap items-center justify-center content-center gap-x-12 gap-y-6 opacity-10 blur-[1px] pointer-events-none"></div>
+
 </div>
 </section>
 <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
@@ -360,5 +332,81 @@
 </div>
 </div>
 </footer>
+<script>
+(async function () {
+  try {
+    // JSON読み込み
+    const response = await fetch('data/today.json', { cache: 'no-store' });
+    if (!response.ok) throw new Error('today.json を読めません: ' + response.status);
+    const data = await response.json();
 
+    // ===== 1) ワードクラウド（デザイン内）に流し込む =====
+    // ▼あなたのHTML側で、ダミーのワード群を入れていた div を
+    //    <div id="ch-wordcloud" class="..."> に置き換えておく必要があります。
+    const wc = document.getElementById('ch-wordcloud');
+    if (wc && Array.isArray(data.trend_words)) {
+      wc.innerHTML = data.trend_words.map(t => {
+        const score = Number(t.score ?? 0);
+
+        // サイズ：scoreで5段階
+        const sizeClass =
+          score >= 90 ? 'text-4xl font-black' :
+          score >= 75 ? 'text-3xl font-bold' :
+          score >= 60 ? 'text-2xl font-semibold' :
+          score >= 45 ? 'text-lg font-medium' :
+                        'text-base font-light';
+
+        // 色：deltaで分岐（up / steady / down / new も許容）
+        const delta = (t.delta || 'steady').toLowerCase();
+        const colorClass =
+          delta === 'up' || delta === 'rising' ? 'text-primary neon-glow-yellow' :
+          delta === 'new' ? 'text-new-blue neon-glow-blue' :
+          delta === 'down' ? 'text-new-blue neon-glow-blue' :
+                             'text-stable-white opacity-70';
+
+        const word = (t.word || '').toString().trim();
+        if (!word) return '';
+
+        return `<span class="${sizeClass} ${colorClass} font-display uppercase">${escapeHtml(word)}</span>`;
+      }).join('');
+    }
+
+    // ===== 2) （任意）右側の Related Intelligence を差し替える場合 =====
+    // まずはワードクラウドだけでOK。将来ここも差し替えるなら
+    // HTML側に id="ch-related" の箱を作って、下を有効化します。
+    //
+    // const related = document.getElementById('ch-related');
+    // if (related && Array.isArray(data.explains)) {
+    //   related.innerHTML = data.explains.slice(0,3).map(e => {
+    //     const src = (e.sources && e.sources[0]) ? e.sources[0] : null;
+    //     const srcHtml = src
+    //       ? `<a class="underline text-primary" href="${src.url}" target="_blank" rel="noopener noreferrer">${escapeHtml(src.label || '出典')}</a>`
+    //       : `<span class="opacity-50">出典（要追加）</span>`;
+    //     return `
+    //       <div class="group cursor-pointer ${/*必要ならクラス調整*/''}">
+    //         <h4 class="text-[11px] font-bold leading-tight group-hover:text-primary transition-colors line-clamp-2">
+    //           ${escapeHtml(e.title || '')}
+    //         </h4>
+    //         <div class="mt-2 text-[10px] opacity-60">${escapeHtml(e.what || '')}</div>
+    //         <div class="mt-2 text-[10px]">${srcHtml}</div>
+    //       </div>
+    //     `;
+    //   }).join('');
+    // }
+
+  } catch (err) {
+    console.error(err);
+  }
+
+  // HTMLエスケープ（安全対策）
+  function escapeHtml(str) {
+    return String(str)
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#39;');
+  }
+})();
+</script>
 </body></html>
